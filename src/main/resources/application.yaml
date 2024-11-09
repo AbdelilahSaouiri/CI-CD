@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: demo1
+  datasource:
+    url: jdbc:h2:mem:db_users
+  h2:
+    console:
+      enabled: true
+server:
+  port: 8085
+
