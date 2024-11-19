@@ -23,10 +23,10 @@ pipeline {
         }
         stage('Upload to Kubernetes') {
             steps {
-                script {
-                    sh 'kubectl apply -f K8S/deployment.yaml'
-                    sh 'kubectl apply -f K8S/service.yaml'
-                }
+                kubernetesDeploy(
+                    configs: 'K8S/deployment.yaml,K8S/service.yaml',
+                    kubeconfigId: 'Kub8'
+                )
             }
         }
     }
