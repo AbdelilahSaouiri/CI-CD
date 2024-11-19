@@ -11,7 +11,6 @@ spec:
       app: spring-boot-app
   template:
     metadata:
-      name: spring-boot-app
       labels:
         app: spring-boot-app
     spec:
@@ -21,6 +20,4 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8086
-              protocol: TCP
       restartPolicy: Always
-      

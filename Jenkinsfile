@@ -18,15 +18,22 @@ pipeline {
             }
         }
         stage('apply to Kubernetes') {
-                   steps {
-                       script {
-                          sh """
-                          export KUBECONFIG=/c/Users/abdos/.kube/config
-                          kubectl apply -f K8S/deployment.yaml
-                          kubectl apply -f K8S/service.yaml
-                          """
-                       }
-                   }
-               }
-           }
-       }
+            steps {
+                script {
+                    sh """
+                    echo 'Using KUBECONFIG=/c/Users/abdos/.kube/config'
+                    export KUBECONFIG=/c/Users/abdos/.kube/config
+
+                    echo 'Applying Deployment...'
+                    kubectl apply -f K8S/deployment.yaml --validate=false
+
+                    echo 'Applying Service...'
+                    kubectl apply -f K8S/service.yaml --validate=false
+
+                    echo 'Deployment to Kubernetes complete!'
+                    """
+                }
+            }
+        }
+    }
+}
