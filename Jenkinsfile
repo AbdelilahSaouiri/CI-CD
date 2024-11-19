@@ -4,27 +4,30 @@ pipeline {
         maven 'maven_3.8.7'
     }
     stages {
-        stage('build Maven') {
+        stage('Build Maven') {
             steps {
-                checkout scmGit(branches: [[name: '*/jenkins']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/AbdelilahSaouiri/CI-CD.git']])
+                checkout scmGit(
+                    branches: [[name: '*/jenkins']],
+                    extensions: [],
+                    userRemoteConfigs: [[url: 'https://github.com/AbdelilahSaouiri/CI-CD.git']]
+                )
                 sh 'mvn clean package'
             }
         }
-        stage("docker build images") {
+        stage('Docker Build Image') {
             steps {
                 script {
                     sh 'docker build -t demo .'
                 }
             }
         }
-        stage('apply to Kubernetes') {
+        stage('Upload to Kubernetes') {
             steps {
                 script {
-                    bat """
-                    set KUBECONFIG=C:\\Users\\abdos\\.kube\\config
-                    kubectl apply -f K8S\\deployment.yaml
-                    kubectl apply -f K8S\\service.yaml
-                    """
+                    kubernetesDeploy(
+                        configs: 'K8S/deployment.yaml,K8S/service.yaml',
+                        kubeconfigId: 'K8S'
+                    )
                 }
             }
         }
