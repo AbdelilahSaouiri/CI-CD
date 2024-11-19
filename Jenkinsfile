@@ -17,15 +17,16 @@ pipeline {
                 }
             }
         }
-        stage("upload to K8S ") {
-            steps {
-                script {
-                    kubernetesDeploy(
-                        configs: 'K8S/deployment.yaml,K8S/service.yaml',
-                        kubeconfigId: 'K8S'
-                    )
-                }
-            }
-        }
-    }
-}
+        stage('apply to Kubernetes') {
+                   steps {
+                       script {
+                          sh """
+                          export KUBECONFIG=/c/Users/abdos/.kube/config
+                          kubectl apply -f K8S/deployment.yaml
+                          kubectl apply -f K8S/service.yaml
+                          """
+                       }
+                   }
+               }
+           }
+       }
