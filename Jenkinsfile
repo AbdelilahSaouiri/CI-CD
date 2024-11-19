@@ -17,7 +17,7 @@ pipeline {
                 }
             }
         }
-        stage("upload to K8S") {
+        stage("upload to K8S ") {
             steps {
                 script {
                     kubernetesDeploy(
